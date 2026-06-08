@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "safe-server": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "mcp/server:latest"],
+      "env": {}
+    }
+  }
+}

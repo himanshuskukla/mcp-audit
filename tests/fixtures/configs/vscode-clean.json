@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "safe-server": {
+      "command": "node",
+      "args": ["./server.js"]
+    }
+  }
+}
