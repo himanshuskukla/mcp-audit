@@ -1,0 +1,19 @@
+name: "MCP Audit"
+description: "Scan MCP server configurations for security vulnerabilities"
+inputs:
+  config:
+    description: "Path to MCP config file"
+    required: false
+  format:
+    description: "Output format (terminal, json)"
+    required: false
+    default: "terminal"
+  strict:
+    description: "Fail if any findings"
+    required: false
+    default: "true"
+runs:
+  using: "composite"
+  steps:
+    - run: npx mcp-audit@latest ${{ inputs.config && format('--config {0}', inputs.config) || '' }} --format ${{ inputs.format }} ${{ inputs.strict == 'true' && '--strict' || '' }}
+      shell: bash
