@@ -1,0 +1,31 @@
+{
+  "name": "mcp-audit",
+  "version": "0.1.0",
+  "description": "Security scanner for MCP server configurations — npm audit for the AI agent era",
+  "type": "module",
+  "bin": { "mcp-audit": "dist/index.js" },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "tsx src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["mcp", "security", "scanner", "audit", "ai-agents", "model-context-protocol", "owasp"],
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/himanshuskukla/mcp-audit" },
+  "engines": { "node": ">=20" },
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "commander": "^15.0.0"
+  }
+}
