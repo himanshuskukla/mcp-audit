@@ -25,6 +25,7 @@ export const SECRET_PATTERNS: SecretPattern[] = [
     pattern: /^(?:Bearer|Basic)\s+[a-zA-Z0-9+/=]{20,}$/,
   },
   { name: "Generic Secret", pattern: /^[a-zA-Z0-9+/=_\-]{40,}$/ },
+  { name: "Generic Secret (with dots)", pattern: /^[a-zA-Z0-9+/=_\-\.]{30,}$/ },
   { name: "Google API Key", pattern: /^AIza[0-9A-Za-z\-_]{35}$/ },
   {
     name: "Notion Token",

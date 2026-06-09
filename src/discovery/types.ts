@@ -2,6 +2,7 @@ export interface McpServerEntry {
   command?: string;
   args?: string[];
   env?: Record<string, string>;
+  headers?: Record<string, string>;
   url?: string;
   serverUrl?: string;
 }
