@@ -1,0 +1,49 @@
+# mcp-audit-cli
+
+> Security scanner for MCP (Model Context Protocol) configurations — npm audit for the AI agent era
+
+## What is mcp-audit?
+
+mcp-audit is an open-source CLI tool that scans MCP client configurations for security vulnerabilities. It supports 12 MCP clients (Claude Desktop, Claude Code, Cursor, VS Code, Windsurf, Gemini CLI, and more), runs 11 security rules covering 8 of 10 OWASP MCP Top 10 categories, and produces actionable findings with remediation guidance.
+
+## Install
+
+```
+npx mcp-audit-cli
+```
+
+## Key features
+
+- 11 security rules (9 static config analysis + 2 live server inspection)
+- 12 MCP clients supported across macOS, Linux, and Windows
+- OWASP MCP Top 10 mapping on every finding
+- Security score (0-100, A-F grade)
+- Summary table with all findings at a glance
+- Live scan mode (--live) connects to MCP servers and inspects tool schemas
+- JSON output for CI/CD integration
+- GitHub Action for automated PR checks
+- Zero cloud dependencies — runs entirely offline
+
+## Security rules
+
+- hardcoded-secrets (MCP01, CRITICAL): Detects API keys, tokens, database URLs in config env blocks
+- dangerous-commands (MCP05, HIGH): Shell interpreters and metacharacters in server commands
+- missing-tls (MCP07, HIGH): HTTP URLs for remote MCP servers
+- docker-sandboxing (MCP02, HIGH): Docker without --read-only, --network=none, or with --privileged
+- sensitive-paths (MCP02, HIGH): ~/.ssh, ~/.aws, ~/.kube, .env files exposed to MCP servers
+- npx-auto-install (MCP06, MEDIUM): npx -y auto-install without verification
+- excessive-permissions (MCP02, MEDIUM): Root or home directory access granted to servers
+- env-leakage (MCP01, MEDIUM): Missing env block causes full environment inheritance
+- shadow-servers (MCP09, MEDIUM): Duplicate server names across multiple MCP clients
+- tool-poisoning (MCP03, CRITICAL, --live): Hidden instructions in tool descriptions
+- logging-check (MCP10, MEDIUM, --live): Servers without logging capabilities
+
+## Supported MCP clients
+
+Claude Desktop, Claude Code, Cursor, VS Code, Windsurf, Gemini CLI, LM Studio, VS Code RooCode, VS Code Augment, Zed, Amazon Q Developer, Cline
+
+## Links
+
+- npm: https://www.npmjs.com/package/mcp-audit-cli
+- GitHub: https://github.com/himanshuskukla/mcp-audit
+- License: MIT
