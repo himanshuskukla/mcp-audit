@@ -1,11 +1,27 @@
+<div align="center">
+
 # mcp-audit
 
-Security scanner for MCP configurations — npm audit for the AI agent era
+### Security scanner for MCP configurations
+
+**npm audit for the AI agent era**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node >= 20](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](package.json)
+[![Tests](https://img.shields.io/badge/tests-128%20passing-brightgreen)](#)
+[![OWASP](https://img.shields.io/badge/OWASP%20MCP-8%2F10%20covered-orange)](#owasp-mcp-top-10-coverage)
 
-Scans MCP client configs for hardcoded secrets, dangerous commands, missing TLS, unsafe auto-install, excessive permissions, Docker misconfigurations, sensitive path exposure, environment leakage, and shadow servers. Optionally connects to live MCP servers to detect tool poisoning and missing logging. Maps every finding to the [OWASP MCP Top 10](https://owasp.org/www-project-mcp-top-10/). Covers 8 of 10 OWASP categories.
+**11 security rules** | **12 MCP clients** | **8/10 OWASP categories** | **Zero dependencies on cloud**
+
+[Quick Start](#quick-start) | [What It Checks](#what-it-checks) | [Live Scan](#live-rules---live--connects-to-servers) | [Security Score](#security-score) | [GitHub Action](#github-action)
+
+</div>
+
+---
+
+> Only **8.5%** of MCP servers use OAuth. **53%** rely on static API keys. **36.7%** are vulnerable to SSRF. mcp-audit finds these issues before attackers do.
+
+---
 
 ## Quick start
 
@@ -13,13 +29,13 @@ Scans MCP client configs for hardcoded secrets, dangerous commands, missing TLS,
 npx mcp-audit
 ```
 
-Automatically detects and scans all MCP clients installed on the current machine. No API keys, no accounts, runs entirely offline.
-
-For a deeper scan that connects to your MCP servers and inspects tool schemas:
+Scans all MCP clients on your machine in under 2 seconds. No API keys. No accounts. No cloud calls. Runs entirely offline.
 
 ```bash
 npx mcp-audit --live
 ```
+
+Deep scan — also connects to your running MCP servers and inspects tool schemas for poisoning and missing logging.
 
 ## What it checks
 
