@@ -1,9 +1,9 @@
 {
   "name": "mcp-audit-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Security scanner for MCP server configurations — npm audit for the AI agent era",
   "type": "module",
-  "bin": { "mcp-audit": "dist/index.js" },
+  "bin": { "mcp-audit-cli": "dist/index.js", "mcp-audit": "dist/index.js" },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": ["dist"],
