@@ -32,18 +32,10 @@ const program = new Command()
       return;
     }
 
-    if (reports.length > 0) {
-      if (options.format === "json") {
-        console.log(formatJson(reports));
-      } else {
-        console.log(formatTerminal(reports, { format: "terminal", noColor: !options.color }));
-      }
-    }
-
-    // Live scanning
+    // Live scanning — run before printing static output so the summary table
+    // can include both static and live findings in one pass.
+    let liveResults: LiveScanResult[] | undefined;
     if (options.live) {
-      let liveResults: LiveScanResult[];
-
       if (options.config) {
         const clientName = options.client ?? "Custom";
         const config = parseConfigFile(options.config, clientName, "mcpServers");
@@ -52,7 +44,17 @@ const program = new Command()
         const configs = discoverExistingConfigs();
         liveResults = await liveScanAll(configs);
       }
+    }
 
+    if (reports.length > 0) {
+      if (options.format === "json") {
+        console.log(formatJson(reports));
+      } else {
+        console.log(formatTerminal(reports, { format: "terminal", noColor: !options.color }, liveResults));
+      }
+    }
+
+    if (liveResults !== undefined) {
       if (options.format === "json") {
         console.log(JSON.stringify({ liveResults }, null, 2));
       } else {
