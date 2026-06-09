@@ -14,7 +14,7 @@
     "dev": "tsx src/index.ts",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["mcp", "security", "scanner", "audit", "ai-agents", "model-context-protocol", "owasp"],
+  "keywords": ["mcp", "mcp-security", "mcp-audit", "mcp-scanner", "security-scanner", "model-context-protocol", "owasp", "ai-agents", "ai-security", "claude", "cursor", "vscode", "devsecops", "supply-chain-security", "tool-poisoning", "hardcoded-secrets", "cli"],
   "license": "MIT",
   "repository": { "type": "git", "url": "https://github.com/himanshuskukla/mcp-audit" },
   "engines": { "node": ">=20" },
