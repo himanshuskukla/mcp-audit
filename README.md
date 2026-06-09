@@ -31,6 +31,8 @@ npx mcp-audit-cli
 
 Scans all MCP clients on your machine in under 2 seconds. No API keys. No accounts. No cloud calls. Runs entirely offline.
 
+![mcp-audit scan demo](assets/mcp-audit-demo.gif)
+
 ```bash
 npx mcp-audit-cli --live
 ```
@@ -118,6 +120,8 @@ node dist/index.js --config tests/fixtures/configs/nightmare-config.json
 ```
 
 This is a real scan — not canned output. mcp-audit parses the config, runs every rule, and produces live findings including hardcoded secrets, shell injection, privileged Docker containers, exposed SSH/AWS credential paths, environment leakage, and npx auto-install risks.
+
+![mcp-audit nightmare config demo](assets/mcp-audit-nightmare.gif)
 
 ## Example output
 
