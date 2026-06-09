@@ -26,13 +26,13 @@
 ## Quick start
 
 ```bash
-npx mcp-audit
+npx mcp-audit-cli
 ```
 
 Scans all MCP clients on your machine in under 2 seconds. No API keys. No accounts. No cloud calls. Runs entirely offline.
 
 ```bash
-npx mcp-audit --live
+npx mcp-audit-cli --live
 ```
 
 Deep scan — also connects to your running MCP servers and inspects tool schemas for poisoning and missing logging.
@@ -89,22 +89,22 @@ Commands:
 
 ```bash
 # Scan all detected clients on your machine
-npx mcp-audit
+npx mcp-audit-cli
 
 # Deep scan — connect to servers, inspect tool schemas for poisoning
-npx mcp-audit --live
+npx mcp-audit-cli --live
 
 # Scan a specific config file
-npx mcp-audit --config ~/.cursor/mcp.json
+npx mcp-audit-cli --config ~/.cursor/mcp.json
 
 # JSON output for CI pipelines
-npx mcp-audit --format json
+npx mcp-audit-cli --format json
 
 # Fail CI if any findings
-npx mcp-audit --strict
+npx mcp-audit-cli --strict
 
 # List supported clients and their config paths for your OS
-npx mcp-audit clients
+npx mcp-audit-cli clients
 ```
 
 ### Try the demo

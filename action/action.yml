@@ -15,5 +15,5 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: npx mcp-audit@latest ${{ inputs.config && format('--config {0}', inputs.config) || '' }} --format ${{ inputs.format }} ${{ inputs.strict == 'true' && '--strict' || '' }}
+    - run: npx mcp-audit-cli@latest ${{ inputs.config && format('--config {0}', inputs.config) || '' }} --format ${{ inputs.format }} ${{ inputs.strict == 'true' && '--strict' || '' }}
       shell: bash
