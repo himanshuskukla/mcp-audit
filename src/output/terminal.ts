@@ -1,6 +1,7 @@
 import type { ScanReport } from "../scanner.js";
 import type { Finding, Severity } from "../rules/types.js";
 import type { OutputOptions } from "./types.js";
+import type { LiveScanResult } from "../live/types.js";
 
 const SEVERITY_ORDER: Severity[] = ["critical", "high", "medium", "low", "info"];
 
@@ -152,6 +153,74 @@ export function formatTerminal(reports: ScanReport[], opts: OutputOptions = { fo
     lines.push(`${overallLabel}${critNote}${highNote} across ${reports.length} config${reports.length !== 1 ? "s" : ""}.`);
     lines.push(colorize("Run with --format json for machine-readable output.", COLORS.dim, noColor));
   }
+
+  return lines.join("\n");
+}
+
+export function formatLiveTerminal(results: LiveScanResult[], opts: OutputOptions = { format: "terminal" }): string {
+  const noColor = opts.noColor ?? false;
+  const lines: string[] = [];
+
+  lines.push("");
+  const header = colorize("Live Scan Results", COLORS.bold, noColor) +
+    colorize(" (--live)", COLORS.dim, noColor);
+  lines.push(header);
+  lines.push(colorize("─".repeat(60), COLORS.dim, noColor));
+  lines.push("");
+
+  if (results.length === 0) {
+    lines.push(colorize("  No servers to scan.", COLORS.dim, noColor));
+    return lines.join("\n");
+  }
+
+  let totalLiveFindings = 0;
+
+  for (const result of results) {
+    const serverLabel = colorize(`Server: ${result.serverName}`, COLORS.bold, noColor) +
+      colorize(` (${result.client})`, COLORS.dim, noColor);
+    lines.push(`  ${serverLabel}`);
+
+    if (!result.connected) {
+      const errorMsg = result.error ?? "unknown error";
+      lines.push(`    ${colorize("Connected:", COLORS.dim, noColor)} ${colorize("failed", COLORS.red, noColor)} (${errorMsg})`);
+      lines.push("");
+      continue;
+    }
+
+    lines.push(`    ${colorize("Connected:", COLORS.dim, noColor)} ${colorize("yes", COLORS.green, noColor)} ${colorize("|", COLORS.dim, noColor)} ${colorize("Tools:", COLORS.dim, noColor)} ${result.toolCount}`);
+
+    if (result.findings.length === 0) {
+      lines.push(`    ${colorize("No findings.", COLORS.green, noColor)}`);
+    } else {
+      totalLiveFindings += result.findings.length;
+      for (let i = 0; i < result.findings.length; i++) {
+        const f = result.findings[i];
+        const sevLabel = formatSeverityLabel(f.severity, noColor);
+        const owaspTag = colorize(`[${f.owasp}]`, COLORS.gray, noColor);
+        lines.push(`    ${i + 1}. ${sevLabel} ${owaspTag} ${f.title}`);
+        if (f.evidence) {
+          lines.push(`       ${colorize("Evidence:", COLORS.dim, noColor)} ${colorize(f.evidence, COLORS.gray, noColor)}`);
+        }
+        lines.push(`       ${colorize("Remediation:", COLORS.dim, noColor)} ${f.remediation}`);
+      }
+    }
+    lines.push("");
+  }
+
+  // Footer
+  lines.push(colorize("─".repeat(60), COLORS.dim, noColor));
+  const scannedCount = results.filter((r) => r.connected).length;
+  const failedCount = results.filter((r) => !r.connected).length;
+  const summaryParts = [`${scannedCount} server${scannedCount !== 1 ? "s" : ""} scanned`];
+  if (failedCount > 0) {
+    summaryParts.push(colorize(`${failedCount} failed to connect`, COLORS.yellow, noColor));
+  }
+  if (totalLiveFindings > 0) {
+    summaryParts.push(colorize(`${totalLiveFindings} finding${totalLiveFindings !== 1 ? "s" : ""}`, COLORS.red, noColor));
+  } else if (scannedCount > 0) {
+    summaryParts.push(colorize("no findings", COLORS.green, noColor));
+  }
+  lines.push(`Live scan: ${summaryParts.join(", ")}.`);
 
   return lines.join("\n");
 }

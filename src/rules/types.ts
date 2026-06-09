@@ -9,7 +9,8 @@ export type OwaspMcpCategory =
   | "MCP05"
   | "MCP06"
   | "MCP07"
-  | "MCP09";
+  | "MCP09"
+  | "MCP10";
 
 export interface Finding {
   ruleId: string;
