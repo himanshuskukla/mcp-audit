@@ -164,7 +164,7 @@ async function connectStdio(
       params: {
         protocolVersion: "2024-11-05",
         capabilities: {},
-        clientInfo: { name: "mcp-audit", version: "0.1.0" },
+        clientInfo: { name: "mcp-audit", version: "0.1.1" },
       },
     });
     child.stdin!.write(initReq + "\n");
@@ -195,7 +195,7 @@ async function connectHttp(
         params: {
           protocolVersion: "2024-11-05",
           capabilities: {},
-          clientInfo: { name: "mcp-audit", version: "0.1.0" },
+          clientInfo: { name: "mcp-audit", version: "0.1.1" },
         },
       }),
       signal: controller.signal,

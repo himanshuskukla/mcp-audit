@@ -27,7 +27,7 @@ export function formatJson(reports: ScanReport[]): string {
   const cleanReports = reports.map(({ _serverNames, ...rest }: any) => rest);
 
   const output: JsonOutput = {
-    version: "0.1.0",
+    version: "0.1.1",
     timestamp: new Date().toISOString(),
     summary: {
       configsScanned: reports.length,
