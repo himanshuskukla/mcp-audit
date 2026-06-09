@@ -44,6 +44,28 @@ describe("hardcoded-secrets rule", () => {
     expect(findings[0].evidence).toContain("DATABASE_URL=");
   });
 
+  it("detects secrets in HTTP headers", () => {
+    const config: McpClientConfig = {
+      client: "test-client",
+      configPath: "/test/config.json",
+      servers: {
+        remoteServer: {
+          url: "https://api.example.com/mcp",
+          headers: {
+            "X-Api-Key": "FAKE.TestKey1234567890abcdefghijklmnopqrstuvwxyz",
+          },
+        },
+      },
+      raw: {},
+    };
+    const findings = runRules(config).filter(
+      (f) => f.ruleId === "hardcoded-secrets"
+    );
+    expect(findings.length).toBeGreaterThan(0);
+    expect(findings[0].title).toContain("headers");
+    expect(findings[0].evidence).toContain("X-Api-Key=");
+  });
+
   it("ignores safe environment variable names", () => {
     const config = makeConfig({
       NODE_ENV: "production",
