@@ -23,6 +23,9 @@ function sumBySeverity(reports: ScanReport[], sev: Severity): number {
 export function formatJson(reports: ScanReport[]): string {
   const totalFindings = reports.reduce((acc, r) => acc + r.summary.total, 0);
 
+  // Strip internal _serverNames field before serializing
+  const cleanReports = reports.map(({ _serverNames, ...rest }: any) => rest);
+
   const output: JsonOutput = {
     version: "0.1.0",
     timestamp: new Date().toISOString(),
@@ -35,7 +38,7 @@ export function formatJson(reports: ScanReport[]): string {
       low: sumBySeverity(reports, "low"),
       info: sumBySeverity(reports, "info"),
     },
-    reports,
+    reports: cleanReports,
   };
 
   return JSON.stringify(output, null, 2);

@@ -43,7 +43,7 @@ function check(ctx: RuleContext): Finding[] {
         title: "Hardcoded secret detected in server environment",
         description: `Environment variable "${key}" in server "${serverName}" appears to contain a ${matched}.`,
         remediation:
-          "Remove the secret from the config file. Use environment variable references or a secrets manager instead.",
+          `Set the value as a system environment variable (e.g., export ${key}=<value> in ~/.zshrc), then remove it from the MCP config. If your client supports env var references, use \${${key}} in the config instead of the raw value.`,
         client: config.client,
         configPath: config.configPath,
         serverName,

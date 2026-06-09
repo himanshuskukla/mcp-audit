@@ -65,7 +65,7 @@ function check(ctx: RuleContext): Finding[] {
         title: "Sensitive credential path exposed as server argument",
         description: `Server "${serverName}" passes a sensitive path ("${arg}") as an argument. This may expose credentials, keys, or configuration secrets to the MCP server process.`,
         remediation:
-          "Do not pass credential directories or files as arguments to MCP servers. Use environment variables with minimal scope or a secrets manager.",
+          `Remove "${arg}" from the server arguments. If the server needs credentials, pass them via a scoped environment variable in the env block instead of filesystem access.`,
         client: config.client,
         configPath: config.configPath,
         serverName,

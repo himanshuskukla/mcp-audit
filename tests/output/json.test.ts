@@ -61,6 +61,18 @@ describe("JSON formatter", () => {
     expect(parsed.reports).toHaveLength(0);
   });
 
+  it("strips _serverNames from JSON output", () => {
+    const reportWithServerNames = {
+      ...findingReport,
+      _serverNames: ["my-server", "another-server"],
+    } as any;
+    const parsed = JSON.parse(formatJson([reportWithServerNames]));
+    expect(parsed.reports[0]._serverNames).toBeUndefined();
+    // Other fields should still be present
+    expect(parsed.reports[0].client).toBe("Claude Desktop");
+    expect(parsed.reports[0].findings).toHaveLength(1);
+  });
+
   it("aggregates counts across multiple reports", () => {
     const secondReport: ScanReport = {
       client: "Cursor",

@@ -11,6 +11,9 @@ function check(ctx: RuleContext): Finding[] {
 
   if (!hasAutoInstall) return [];
 
+  // Identify the package argument: first arg that doesn't start with '-'
+  const packageArg = args.find((a) => !a.startsWith("-")) ?? "<package-name>";
+
   return [
     {
       ruleId: "npx-auto-install",
@@ -19,7 +22,7 @@ function check(ctx: RuleContext): Finding[] {
       title: "npx used with auto-install flag",
       description: `Server "${serverName}" uses "npx" with the "-y" or "--yes" flag, which automatically installs packages without confirmation. This can silently pull untrusted code.`,
       remediation:
-        'Remove the "-y" / "--yes" flag from npx invocations. Pin package versions and pre-install dependencies explicitly.',
+        `Install the package first: npm install -g ${packageArg}. Then change the config to use the installed binary directly instead of npx. If you must use npx, remove the -y flag so it prompts before installing.`,
       client: config.client,
       configPath: config.configPath,
       serverName,

@@ -37,7 +37,7 @@ function check(ctx: RuleContext): Finding[] {
         title: "Server connection uses insecure HTTP (no TLS)",
         description: `Server "${serverName}" field "${field}" uses HTTP without TLS. Data in transit is unencrypted and vulnerable to interception.`,
         remediation:
-          "Use HTTPS instead of HTTP for all non-localhost server connections to ensure data is encrypted in transit.",
+          "Change the URL from http:// to https://. If the MCP server does not support TLS, place it behind a reverse proxy (nginx, Caddy, or Cloudflare Tunnel) that terminates TLS.",
         client: config.client,
         configPath: config.configPath,
         serverName,

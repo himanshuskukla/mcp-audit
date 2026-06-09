@@ -35,7 +35,7 @@ function check(ctx: RuleContext): Finding[] {
         title: "Server granted overly broad filesystem access",
         description: `Server "${serverName}" is configured with argument "${arg}", which grants access to a sensitive or overly broad filesystem path.`,
         remediation:
-          "Restrict filesystem access to the minimum required directory. Avoid granting access to system directories or the entire home folder.",
+          `Replace "${arg}" with the specific project directory this server needs access to (e.g., /Users/you/projects/my-project). Never grant access broader than necessary.`,
         client: config.client,
         configPath: config.configPath,
         serverName,

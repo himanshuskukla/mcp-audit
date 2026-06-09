@@ -62,7 +62,7 @@ export function checkShadowServers(reports: ScanReportLike[]): Finding[] {
         title: "Duplicate server name across multiple configs (shadow server risk)",
         description: `Server name "${serverName}" is defined in multiple config files: ${allLocations}. A malicious config could shadow a legitimate server, causing the wrong server to handle requests.`,
         remediation:
-          "Use unique server names across all MCP client configurations. Audit which config takes precedence and remove or rename duplicates.",
+          `Rename one of the duplicate servers to a unique name (e.g., "${serverName}-cursor" or "${serverName}-vscode") to avoid ambiguity.`,
         client: loc.client,
         configPath: loc.configPath,
         serverName,

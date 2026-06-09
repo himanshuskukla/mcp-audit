@@ -24,7 +24,7 @@ function check(ctx: RuleContext): Finding[] {
       title: "Docker container runs in privileged mode",
       description: `Server "${serverName}" runs Docker with --privileged, granting the container nearly all host capabilities and full access to the host device filesystem.`,
       remediation:
-        "Remove --privileged. Use --cap-add to grant only the specific capabilities needed, or run without any extra capabilities.",
+        "Remove --privileged from the Docker args. If the server needs specific capabilities, use --cap-add=<CAPABILITY> for only the ones required.",
       client: config.client,
       configPath: config.configPath,
       serverName,
@@ -41,7 +41,7 @@ function check(ctx: RuleContext): Finding[] {
       title: "Docker container uses host network",
       description: `Server "${serverName}" runs Docker with --network=host, allowing the container to access all host network interfaces and bypass network isolation.`,
       remediation:
-        "Use --network=none (if no network needed) or a dedicated bridge network. Avoid --network=host.",
+        "Add --network=none to the Docker args if the server does not need network access. If it does, create a dedicated Docker network with docker network create mcp-net and use --network=mcp-net.",
       client: config.client,
       configPath: config.configPath,
       serverName,
@@ -77,7 +77,7 @@ function check(ctx: RuleContext): Finding[] {
           title: "Docker container mounts sensitive host path",
           description: `Server "${serverName}" mounts a sensitive host path ("${hostPath}") into the container, potentially exposing the entire filesystem or home directory.`,
           remediation:
-            "Mount only the minimal required directories. Never mount / or /home into a container.",
+            `Replace the volume mount with a scoped directory: -v /path/to/specific/dir:/data instead of mounting / or /home.`,
           client: config.client,
           configPath: config.configPath,
           serverName,
@@ -96,7 +96,7 @@ function check(ctx: RuleContext): Finding[] {
       title: "Docker container filesystem is not read-only",
       description: `Server "${serverName}" does not use --read-only, allowing the container process to write anywhere in the container filesystem.`,
       remediation:
-        "Add --read-only to make the container root filesystem read-only. Use --tmpfs for directories that need write access.",
+        "Add --read-only to the Docker args. If the server needs to write temporary files, add --tmpfs /tmp to allow writes only to /tmp.",
       client: config.client,
       configPath: config.configPath,
       serverName,
@@ -119,7 +119,7 @@ function check(ctx: RuleContext): Finding[] {
       title: "Docker container has no explicit network isolation",
       description: `Server "${serverName}" does not specify --network=none, meaning the container gets default bridge network access and can make outbound connections.`,
       remediation:
-        "Add --network=none if the MCP server does not need network access. Otherwise, use a dedicated bridge network.",
+        "Add --network=none to the Docker args if the server does not need network access. If it does, create a dedicated Docker network with docker network create mcp-net and use --network=mcp-net.",
       client: config.client,
       configPath: config.configPath,
       serverName,

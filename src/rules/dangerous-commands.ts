@@ -27,7 +27,7 @@ function check(ctx: RuleContext): Finding[] {
       title: "Server uses a shell interpreter as command",
       description: `Server "${serverName}" uses "${server.command}" as its command, which is a shell interpreter. This can allow arbitrary code execution.`,
       remediation:
-        "Use a specific executable instead of a shell interpreter. Avoid invoking shells directly.",
+        `Replace "command": "${server.command}" with the specific binary your server needs (e.g., "node", "python3", "npx"). If you need shell features, create a wrapper script and point the command to that script instead.`,
       client: config.client,
       configPath: config.configPath,
       serverName,
@@ -46,7 +46,7 @@ function check(ctx: RuleContext): Finding[] {
         title: "Server arguments contain shell metacharacters",
         description: `Server "${serverName}" has arguments containing shell metacharacters or dangerous patterns, which may indicate command injection risk.`,
         remediation:
-          "Avoid shell metacharacters in arguments. Use parameterized invocation instead of shell command strings.",
+          "Remove shell operators (;, |, &, backticks) from the args array. Each argument should be a single clean value. If you need complex invocation, wrap it in a shell script file and reference that.",
         client: config.client,
         configPath: config.configPath,
         serverName,

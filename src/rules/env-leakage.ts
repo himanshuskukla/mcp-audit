@@ -40,7 +40,7 @@ function check(ctx: RuleContext): Finding[] {
       title: "Server inherits full process environment",
       description: `Server "${serverName}" has no "env" block defined. It will inherit the entire parent process environment, potentially exposing secrets present in the shell session (e.g. API keys, tokens, database URLs).`,
       remediation:
-        'Add an explicit "env" block (even an empty one {}) to prevent environment inheritance. Only pass variables the server actually needs.',
+        'Add an explicit "env": {} block to the server config. This gives the server a clean environment. Then add ONLY the specific variables it needs, e.g., "env": { "NODE_ENV": "production" }.',
       client: config.client,
       configPath: config.configPath,
       serverName,
@@ -59,7 +59,7 @@ function check(ctx: RuleContext): Finding[] {
           title: "Sensitive variable explicitly passed to server",
           description: `Server "${serverName}" explicitly passes the sensitive environment variable "${key}" to the MCP server process. Even if the value is a reference, forwarding this variable expands its exposure surface.`,
           remediation:
-            "Avoid passing sensitive credential variables to MCP servers. If the server genuinely needs credentials, use a dedicated short-lived token with minimal scope.",
+            `Remove "${key}" from the env block. If the server needs this credential, create a dedicated API key with minimal permissions rather than passing your personal/admin credential.`,
           client: config.client,
           configPath: config.configPath,
           serverName,
