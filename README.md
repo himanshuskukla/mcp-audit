@@ -88,10 +88,10 @@ Commands:
 ### Examples
 
 ```bash
-# Scan all detected clients
+# Scan all detected clients on your machine
 npx mcp-audit
 
-# Deep scan — also connect to servers and check tool schemas
+# Deep scan — connect to servers, inspect tool schemas for poisoning
 npx mcp-audit --live
 
 # Scan a specific config file
@@ -103,9 +103,21 @@ npx mcp-audit --format json
 # Fail CI if any findings
 npx mcp-audit --strict
 
-# List supported clients and config paths
+# List supported clients and their config paths for your OS
 npx mcp-audit clients
 ```
+
+### Try the demo
+
+The repo includes a deliberately insecure config file that triggers all 9 static rules — 20 findings across 5 servers, scored 0/100 (F). Clone the repo and run:
+
+```bash
+git clone https://github.com/himanshuskukla/mcp-audit.git
+cd mcp-audit && npm ci && npm run build
+node dist/index.js --config tests/fixtures/configs/nightmare-config.json
+```
+
+This is a real scan — not canned output. mcp-audit parses the config, runs every rule, and produces live findings including hardcoded secrets, shell injection, privileged Docker containers, exposed SSH/AWS credential paths, environment leakage, and npx auto-install risks.
 
 ## Example output
 
