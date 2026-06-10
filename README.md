@@ -8,7 +8,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node >= 20](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](package.json)
-[![Tests](https://img.shields.io/badge/tests-128%20passing-brightgreen)](#)
+[![Tests](https://img.shields.io/badge/tests-152%20passing-brightgreen)](#)
 [![OWASP](https://img.shields.io/badge/OWASP%20MCP-8%2F10%20covered-orange)](#owasp-mcp-top-10-coverage)
 
 **11 security rules** | **12 MCP clients** | **8/10 OWASP categories** | **Zero dependencies on cloud**
@@ -206,10 +206,28 @@ Scoring: CRITICAL = -25, HIGH = -15, MEDIUM = -5, LOW = -2. The score gives team
 
 8 of 10 categories covered. MCP04 and MCP08 require a persistent runtime proxy — planned for a future release.
 
+## Telemetry
+
+mcp-audit collects **anonymous, aggregate** scan statistics to track ecosystem-wide MCP security trends. On first run, you'll be asked whether to share.
+
+**What's shared:** finding counts by rule/severity, client names, security score, OS
+**NOT shared:** server names, file paths, environment variables, secrets, IP addresses
+
+Your choice is saved to `~/.config/mcp-audit/config.json`. Override anytime:
+
+```bash
+npx mcp-audit-cli --share       # share this run
+npx mcp-audit-cli --no-share    # skip this run
+```
+
+In CI (non-interactive), telemetry is off unless you pass `--share` explicitly.
+
+View aggregate community stats: [`GET /v1/stats`](https://mcp-audit-telemetry.thehimanshushukla-com.workers.dev/v1/stats)
+
 ## Contributing
 
 1. Fork the repository.
-2. Run `npm ci && npm test` to verify the baseline (128 tests).
+2. Run `npm ci && npm test` to verify the baseline (152 tests).
 3. Add or update a rule in `src/rules/` or `src/live/`, with a matching test.
 4. Open a pull request — CI must pass.
 
