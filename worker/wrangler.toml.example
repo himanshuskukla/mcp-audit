@@ -1,0 +1,8 @@
+name = "mcp-audit-telemetry"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mcp-audit-telemetry"
+database_id = "<your-d1-database-id>"

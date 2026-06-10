@@ -5,3 +5,4 @@ dist
 *.cast
 .env
 .env.*
+worker/wrangler.toml
