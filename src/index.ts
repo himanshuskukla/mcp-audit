@@ -6,6 +6,7 @@ import { getClientDefinitions, discoverExistingConfigs } from "./discovery/resol
 import { parseConfigFile } from "./discovery/parser.js";
 import { liveScanAll } from "./live/index.js";
 import type { LiveScanResult } from "./live/types.js";
+import { handleTelemetry } from "./telemetry/index.js";
 
 const program = new Command()
   .name("mcp-audit")
@@ -17,6 +18,7 @@ const program = new Command()
   .option("--no-color", "disable colored output")
   .option("--strict", "exit with code 1 on any finding")
   .option("--live", "connect to MCP servers and inspect tool schemas (slower, more thorough)")
+  .option("--share", "share anonymous scan results with the mcp-audit community")
   .action(async (options) => {
     let reports;
     if (options.config) {
@@ -32,8 +34,6 @@ const program = new Command()
       return;
     }
 
-    // Live scanning — run before printing static output so the summary table
-    // can include both static and live findings in one pass.
     let liveResults: LiveScanResult[] | undefined;
     if (options.live) {
       if (options.config) {
@@ -60,17 +60,16 @@ const program = new Command()
       } else {
         console.log(formatLiveTerminal(liveResults, { format: "terminal", noColor: !options.color }));
       }
-
-      // Count live findings for --strict
-      if (options.strict) {
-        const liveFindingCount = liveResults.reduce((s, r) => s + r.findings.length, 0);
-        if (liveFindingCount > 0) process.exit(1);
-      }
     }
 
+    // Telemetry — after all output, before exit
+    await handleTelemetry(reports, liveResults, { share: options.share });
+
+    // Single exit path for --strict
     if (options.strict) {
-      const totalFindings = reports.reduce((s, r) => s + r.summary.total, 0);
-      if (totalFindings > 0) process.exit(1);
+      const staticCount = reports.reduce((s, r) => s + r.summary.total, 0);
+      const liveCount = liveResults ? liveResults.reduce((s, r) => s + r.findings.length, 0) : 0;
+      if (staticCount + liveCount > 0) process.exit(1);
     }
   });
 
