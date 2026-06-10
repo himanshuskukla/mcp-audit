@@ -3,7 +3,7 @@ import type { LiveScanResult } from "../live/types.js";
 import type { Severity } from "../rules/types.js";
 import { calculateSecurityScore } from "../utils/scoring.js";
 
-const TELEMETRY_ENDPOINT = "https://mcp-audit-telemetry.placeholder.workers.dev/v1/report";
+const TELEMETRY_ENDPOINT = "https://mcp-audit-telemetry.thehimanshushukla-com.workers.dev/v1/report";
 const TIMEOUT_MS = 3_000;
 
 export interface TelemetryPayload {
