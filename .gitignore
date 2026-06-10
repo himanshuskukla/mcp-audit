@@ -5,4 +5,6 @@ dist
 *.cast
 .env
 .env.*
+.claude/
 worker/wrangler.toml
+worker/package-lock.json
