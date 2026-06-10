@@ -31,7 +31,7 @@ describe("JSON formatter", () => {
 
   it("includes version field", () => {
     const parsed = JSON.parse(formatJson([findingReport]));
-    expect(parsed.version).toBe("0.1.3");
+    expect(parsed.version).toBe("0.1.4");
   });
 
   it("includes ISO timestamp", () => {

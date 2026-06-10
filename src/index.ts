@@ -11,7 +11,7 @@ import { handleTelemetry } from "./telemetry/index.js";
 const program = new Command()
   .name("mcp-audit")
   .description("Security scanner for MCP server configurations — npm audit for MCP")
-  .version("0.1.3")
+  .version("0.1.4")
   .option("-f, --format <format>", "output format: terminal, json", "terminal")
   .option("-c, --config <path>", "scan a specific config file")
   .option("--client <name>", "client name when using --config (default: Custom)")
